@@ -1,24 +1,28 @@
+import com.android.builder.core.BuilderConstants
+
 buildscript {
 	repositories {
 		jcenter()
+		google()
 	}
 
 	dependencies {
-		classpath 'com.android.tools.build:gradle:2.3.1'
-		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+		classpath 'com.android.tools.build:gradle:4.0.0'
+		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+		classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 	}
 }
 
 allprojects {
 	repositories {
 		jcenter()
+		google()
 	}
 }
 
 apply plugin: 'com.android.library'
 
-def Properties privateProperties = new Properties()
+Properties privateProperties = new Properties()
 
 if (new File('private.properties').exists()) {
 	privateProperties.load(new FileInputStream(file('private.properties')))
@@ -26,7 +30,7 @@ if (new File('private.properties').exists()) {
 
 android {
 	compileSdkVersion 25
-	buildToolsVersion '25.0.3'
+	//buildToolsVersion '25.0.3'
 
 	sourceSets.main {
 		manifest.srcFile 'AndroidManifest.xml'
@@ -45,7 +49,7 @@ android {
 	}
 
 	variantFilter { variant ->
-		if (variant.buildType.name != com.android.builder.core.BuilderConstants.RELEASE) {
+		if (variant.buildType.name != BuilderConstants.RELEASE) {
 			variant.ignore = true
 		}
 	}
@@ -91,12 +95,14 @@ task javadocGenerate(type: Javadoc) {
 
 task javadocJar(type: Jar, dependsOn: javadocGenerate) {
 	from javadocGenerate.destinationDir
-	classifier = 'javadoc'
+	//classifier = 'javadoc'
+	getArchiveClassifier().set('javadoc')
 }
 
 task sourcesJar(type: Jar) {
 	from android.sourceSets.main.java.srcDirs
-	classifier = 'sources'
+	//classifier = 'sources'
+	getArchiveClassifier().set('sources')
 }
 
 artifacts {
@@ -184,7 +190,7 @@ if (bintrayUser != null && bintrayApiKey != null) {
 class RetainJarArtifacts extends DefaultTask {
 	@TaskAction
 	def action() {
-		def artifacts = project.configurations.archives.artifacts;
+		def artifacts = project.configurations.archives.artifacts
 		artifacts.retainAll artifacts.findAll {
 			it.type == 'jar'
 		}
