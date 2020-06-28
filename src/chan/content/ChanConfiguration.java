@@ -362,6 +362,12 @@ public class ChanConfiguration {
 		public boolean allowSubject;
 
 		/**
+		 * <p>Set {@code true} to enable subjects. You will receive user's input from
+		 * {@link ChanPerformer.SendPostData#embed}</p>
+		 */
+		public boolean allowEmbed;
+
+		/**
 		 * <p>Set {@code true} to enable sage mark. You will receive user's choice from
 		 * {@link ChanPerformer.SendPostData#optionSage}</p>
 		 */

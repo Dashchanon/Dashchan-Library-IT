@@ -1148,6 +1148,11 @@ public class ChanPerformer {
 		public final String subject;
 
 		/**
+		 * <p>Embed argument. Equals {@code null} if empty.</p>
+		 */
+		public final String embed;
+
+		/**
 		 * <p>Comment argument. Equals {@code null} if empty.</p>
 		 */
 		public final String comment;
